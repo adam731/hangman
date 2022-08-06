@@ -4,6 +4,7 @@ import java.util.Scanner;
 
 public class WordBank {
     public static void main(String[] args) {
+        // make a method called getwordlist that returns a list of words
         String fileName = "src/wordlist.txt";
         String[] words = new String[50];
         int wordCount = 0;
