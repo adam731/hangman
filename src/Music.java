@@ -11,14 +11,14 @@ public class Music {
     public Music() {
     }
 
-    public static void music(String StartStop) throws LineUnavailableException, UnsupportedAudioFileException, IOException {
+    public static void music(String input) throws LineUnavailableException, UnsupportedAudioFileException, IOException {
         File soundFile = new File("src/music/background.wav");
         AudioInputStream audioIn = AudioSystem.getAudioInputStream(soundFile);
         Clip clip = AudioSystem.getClip();
         clip.open(audioIn);
         clip.start();
         if (clip.isRunning()) {
-            clip.stop();
+             clip.stop();
         } else {
             clip.start();
         }

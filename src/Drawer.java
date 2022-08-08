@@ -65,6 +65,7 @@ public class Drawer {
             System.out.println("     |                  ");
             System.out.println("     |___               ");
         }
-
     }
+
+    // make a static void function called start menu that prints the start menu
 }
