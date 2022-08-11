@@ -159,33 +159,3 @@ public class Hangman {
         System.out.println();
     }
 }
-// if the user wants to guess a letter
-// if letter in word
-// tell user letter is correct
-// if user guessed all letters
-// set game over to true
-// set isWinner to true
-// else
-// tell user letter is incorrect
-// add plus one to lives
-// else if user wants to guess a word
-// if word is correct
-// set game over to true
-// set isWinner to true
-// else word is incorrect
-// tell user word is incorrect
-// add plus one to lives
-// else if user quits
-// set gameOver to true
-// else
-// print invalid input try again
-
-// if lives run out
-// set gameOver true
-// set isWinner to false
-
-// print out game ending message
-// print out if user won or lose
-// print out word
-// play again or exit
-
