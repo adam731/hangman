@@ -1,9 +1,13 @@
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Locale;
 import java.util.Scanner;
 
 public class Hangman {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws UnsupportedAudioFileException, LineUnavailableException, IOException {
 
         int lives = 0;
 
@@ -22,58 +26,53 @@ public class Hangman {
         WordBank wordBank = new WordBank("src/wordlist.txt");
 
 
-
         Scanner input = new Scanner(System.in);
 
 
         while (true) {
-            System.out.println("Welcome to Adams Hangman Game!");
-            System.out.println("1. Type start to play ");
-            System.out.println("2. Type easy for easy mode ");
-            System.out.println("3. Type medium for medium mode ");
-            System.out.println("4. Type hard for hard mode ");
-            System.out.println("5. Type quit to quit ");
+
+            TextAssets.drawMainMenu();
             choice = input.nextLine();
 
 
-            if (choice.equals("1") & difficulty == 0) {
+            if (choice.equalsIgnoreCase("start") & difficulty == 0) {
                 System.out.println("Please choose a difficulty");
-            } else if (choice.equals("1") & difficulty != 0) {
+            } else if (choice.equalsIgnoreCase("start") & difficulty != 0) {
+                Music.playMusic();
                 break;
-            } else if (choice.equals("2")) {
+            } else if (choice.equalsIgnoreCase("easy")) {
                 difficulty = 1;
                 System.out.println("Difficulty set to easy");
                 answer = wordBank.getEasyWord();
-            } else if (choice.equals("3")) {
+            } else if (choice.equalsIgnoreCase("medium")) {
                 difficulty = 2;
                 System.out.println("Difficulty set to medium");
                 answer = wordBank.getMediumWord();
-            } else if (choice.equals("4")) {
+            } else if (choice.equalsIgnoreCase("hard")) {
                 difficulty = 3;
                 System.out.println("Difficulty set to hard");
                 answer = wordBank.getHardWord();
-            } else if (choice.equals("5")) {
+            } else if (choice.equalsIgnoreCase("exit")) {
             } else
                 System.out.println("Invalid entry try again");
         }
 
 
-
         while (!gameOver) {
             // print out hangman guy
-            System.out.println("Hanging Man");
+            TextAssets.drawHangman(lives);
             // print blank wordbank
-            System.out.println("WordBank");
+            printGuesses(guesses);
             // ask user if they want to guess a letter or word or quit
-            System.out.println("1. Guess a Letter");
-            System.out.println("2. Guess a Word");
-            System.out.println("3. Quit");
+            printBlankAnswer(answer, guesses);
+            TextAssets.drawGameMenu();
             choice = input.nextLine();
             if (choice.equals("1")) {
                 System.out.println("Enter a Letter");
-                char letter = input.nextLine().charAt(0);
+                char letter = input.nextLine().toLowerCase().charAt(0);
                 if (answer.contains(String.valueOf(letter))) {
                     System.out.println("Correct Letter");
+                    Music.CorrectSoundEffect();
                     guesses.add(String.valueOf(letter));
                     if (guesses.size() == answer.length()) {
                         gameOver = true;
@@ -82,6 +81,8 @@ public class Hangman {
                 } else {
                     System.out.println("Incorrect letter");
                     lives += 1;
+                    Music.WrongSoundEffect();
+                    guesses.add(String.valueOf(letter));
                 }
             } else if (choice.equals("2")) {
                 System.out.println("Guess a word");
@@ -91,6 +92,7 @@ public class Hangman {
                     isWinner = true;
                 } else {
                     System.out.println("Word is incorrect");
+                    Music.WrongSoundEffect();
                     lives += 1;
                 }
             } else if (choice.equals("3")) {
@@ -98,23 +100,43 @@ public class Hangman {
             } else {
                 System.out.println("Invalid Entry try again!");
             }
-            if (lives == 6) {
+            if (lives == 5) {
                 gameOver = true;
                 isWinner = false;
             }
         }
         System.out.println("End of game");
         if (isWinner) {
+            Music.winningSoundEffect();
             System.out.println("Congrats you beat the game!");
             System.out.println("You guessed the word " + answer);
             System.out.println("Would you like to play again Y/N");
         } else {
+            Music.losingSoundEffect();
             System.out.println("Exit program");
             System.out.println("Better Luck next time!");
             System.out.println("The word was " + answer);
             System.out.println("Would you like to play again Y/N");
-            String word = input.next();
+            //String word = input.next();
         }
+    }
+
+    public static void printGuesses (ArrayList<String> guesses) {
+        for (int i = 0; i < guesses.size(); i++) {
+            System.out.print(guesses.get(i));
+        }
+        System.out.println();
+    }
+
+    public static void printBlankAnswer (String answer, ArrayList<String> guesses) {
+        for (int i = 0; i < answer.length(); i++) {
+            if (guesses.contains(String.valueOf(answer.charAt(i)))) {
+                System.out.print(answer.charAt(i));
+            } else {
+                System.out.print("_");
+            }
+        }
+        System.out.println();
     }
 }
 // if the user wants to guess a letter

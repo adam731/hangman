@@ -8,23 +8,26 @@ import java.util.Scanner;
 
 public class WordBank {
 
-    ArrayList<String> wordListEasy = new ArrayList<>();
+    private ArrayList<String> wordListEasy;
 
-    ArrayList<String> wordListMedium = new ArrayList<>();
+    private ArrayList<String> wordListMedium;
 
-    ArrayList<String> wordListHard = new ArrayList<>();
+    private ArrayList<String> wordListHard;
 
     public WordBank(String fileName) {
+        wordListEasy = new ArrayList<>();
+        wordListMedium = new ArrayList<>();
+        wordListHard = new ArrayList<>();
         try {
             Scanner file = new Scanner(new File(fileName));
             while (file.hasNext()) {
                 String word = file.nextLine();
-                if (word.length() < 3) {
-                    wordListEasy.add(word);
-                } else if (word.length() < 5) {
+                if (word.length() <= 3) {
+                    wordListHard.add(word);
+                } else if (word.length() <= 6) {
                     wordListMedium.add(word);
                 } else {
-                    wordListHard.add(word);
+                    wordListEasy.add(word);
                 }
             }
         } catch (FileNotFoundException e) {
