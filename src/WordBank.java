@@ -36,14 +36,23 @@ public class WordBank {
     }
 
     public String getEasyWord() {
-        return wordListEasy.get((int) (Math.random() * wordListEasy.size()));
+        int random = (int) (Math.random() * wordListEasy.size());
+        String word = wordListEasy.get(random);
+        wordListEasy.remove(random);
+        return word;
     }
 
     public String getMediumWord() {
-        return wordListMedium.get((int) (Math.random() * wordListMedium.size()));
+        int random = (int) (Math.random() * wordListMedium.size());
+        String word = wordListMedium.get(random);
+        wordListMedium.remove(random);
+        return word;
     }
 
     public String getHardWord() {
-        return wordListHard.get((int) (Math.random() * wordListHard.size()));
+        int random = (int) (Math.random() * wordListHard.size());
+        String word = wordListHard.get(random);
+        wordListHard.remove(random);
+        return word;
     }
 }
