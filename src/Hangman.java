@@ -1,15 +1,11 @@
 import org.w3c.dom.Text;
-
-import javax.sound.sampled.LineUnavailableException;
-import javax.sound.sampled.UnsupportedAudioFileException;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Locale;
 import java.util.Scanner;
 
 public class Hangman {
 
-    public static void main(String[] args) throws UnsupportedAudioFileException, LineUnavailableException, IOException {
+    public static void main(String[] args) {
 
         final String WORD_LIST_FINAL = "./src/assets/wordlist.txt";
 
