@@ -1,3 +1,5 @@
+import org.w3c.dom.Text;
+
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 import java.io.IOException;
@@ -85,59 +87,65 @@ public class Hangman {
                 if (choice.equals("1")) {
                     System.out.println("Enter a Letter");
                     char letter = input.nextLine().toLowerCase().charAt(0);
-                    if (answer.contains(String.valueOf(letter))) {
-                        System.out.println("Correct Letter");
-                        music.CorrectSoundEffect();
-                        guesses.add(String.valueOf(letter));
-                        if (guesses.size() == answer.length()) {
+                        if (guesses.contains(String.valueOf(letter))) {
+                            System.out.println("Letter already guessed try again");
+                            guesses.remove(String.valueOf(letter));
+                        }
+                        if (answer.contains(String.valueOf(letter))) {
+                            System.out.println("Correct Letter");
+                            music.CorrectSoundEffect();
+                            guesses.add(String.valueOf(letter));
+                            if (guesses.size() == answer.length()) {
+                                gameOver = true;
+                                isWinner = true;
+                            }
+                        } else {
+                            System.out.println("Incorrect letter");
+                            // make an if statement and if the letter is already in guesses array list tell user to try again
+                            lives += 1;
+                            music.WrongSoundEffect();
+                            guesses.add(String.valueOf(letter));
+                        }
+                    } else if (choice.equals("2")) {
+                        System.out.println("Guess a word");
+                        String word = input.next();
+                        if (answer.equals(word)) {
                             gameOver = true;
                             isWinner = true;
+                        } else {
+                            System.out.println("Word is incorrect");
+                            music.WrongSoundEffect();
+                            lives += 1;
                         }
-                    } else {
-                        System.out.println("Incorrect letter");
-                        lives += 1;
-                        music.WrongSoundEffect();
-                        guesses.add(String.valueOf(letter));
-                    }
-                } else if (choice.equals("2")) {
-                    System.out.println("Guess a word");
-                    String word = input.next();
-                    if (answer.equals(word)) {
+                    } else if (choice.equals("3")) {
                         gameOver = true;
-                        isWinner = true;
                     } else {
-                        System.out.println("Word is incorrect");
-                        music.WrongSoundEffect();
-                        lives += 1;
+                        System.out.println("Invalid Entry try again!");
                     }
-                } else if (choice.equals("3")) {
-                    gameOver = true;
+                    if (lives == 5) {
+                        TextAssets.drawHangman(lives);
+                        gameOver = true;
+                        isWinner = false;
+                    }
+                }
+                if (isWinner & answer.length() > 1) {
+                    music.winningSoundEffect();
+                    System.out.println("Congrats you beat the game!");
+                    System.out.println("You guessed the word " + answer);
+                } else if (!isWinner & answer.length() > 1) {
+                    music.losingSoundEffect();
+                    System.out.println("Exit program");
+                    System.out.println("Better Luck next time!");
+                    System.out.println("The word was " + answer);
+                }
+                System.out.println("Would you like to play again Y/N");
+                String word = input.next();
+                if (word.equals("Y")) {
+                    System.out.println("Starting new game");
                 } else {
-                    System.out.println("Invalid Entry try again!");
+                    System.out.println("Exiting program");
+                    playing = false;
                 }
-                if (lives == 5) {
-                    gameOver = true;
-                    isWinner = false;
-                }
-            }
-            if (isWinner & answer.length() > 1) {
-                music.winningSoundEffect();
-                System.out.println("Congrats you beat the game!");
-                System.out.println("You guessed the word " + answer);
-            } else if (!isWinner & answer.length() > 1) {
-                music.losingSoundEffect();
-                System.out.println("Exit program");
-                System.out.println("Better Luck next time!");
-                System.out.println("The word was " + answer);
-            }
-            System.out.println("Would you like to play again Y/N");
-            String word = input.next();
-            if (word.equals("Y")) {
-                System.out.println("Starting new game");
-            } else {
-                System.out.println("Exiting program");
-                playing = false;
-            }
         }
     }
 
