@@ -1,6 +1,4 @@
-import org.w3c.dom.Text;
 import java.util.ArrayList;
-import java.util.Locale;
 import java.util.Scanner;
 
 public class Hangman {
@@ -29,7 +27,7 @@ public class Hangman {
             gameOver = false;
             isWinner = false;
             answer = "";
-            guesses = new ArrayList<String>();
+            guesses = new ArrayList<>();
 
             while (true) {
 
@@ -85,13 +83,14 @@ public class Hangman {
                 printBlankAnswer(answer, guesses);
                 TextAssets.drawGameMenu();
                 choice = input.nextLine();
-                if (choice.equals("1")) {
-                    System.out.println("Enter a Letter");
-                    char letter = input.nextLine().toLowerCase().charAt(0);
-                    while(!(letter >= 'a' && letter <= 'z')){
-                        System.out.println("Enter a valid letter");
-                        letter = input.nextLine().toLowerCase().charAt(0);
-                    }
+                switch (choice) {
+                    case "1" -> {
+                        System.out.println("Enter a Letter");
+                        char letter = input.nextLine().toLowerCase().charAt(0);
+                        while (!(letter >= 'a' && letter <= 'z')) {
+                            System.out.println("Enter a valid letter");
+                            letter = input.nextLine().toLowerCase().charAt(0);
+                        }
                         if (guesses.contains(String.valueOf(letter))) {
                             System.out.println("Letter already guessed try again");
                             guesses.remove(String.valueOf(letter));
@@ -110,7 +109,8 @@ public class Hangman {
                             music.WrongSoundEffect();
                             guesses.add(String.valueOf(letter));
                         }
-                    } else if (choice.equals("2")) {
+                    }
+                    case "2" -> {
                         System.out.println("Guess a word");
                         String word = input.nextLine();
                         if (answer.equals(word)) {
@@ -121,15 +121,13 @@ public class Hangman {
                             music.WrongSoundEffect();
                             lives += 1;
                         }
-                    } else if (choice.equals("3")) {
-                        gameOver = true;
-                    } else {
-                        System.out.println("Invalid Entry try again!");
                     }
+                    case "3" -> gameOver = true;
+                    default -> System.out.println("Invalid Entry try again!");
+                }
                     if (lives == 5) {
                         TextAssets.drawHangman(lives);
                         gameOver = true;
-                        isWinner = false;
                     }
                 }
                 if (isWinner & answer.length() > 1) {
@@ -155,8 +153,8 @@ public class Hangman {
 
 
     public static void printGuesses (ArrayList<String> guesses) {
-        for (int i = 0; i < guesses.size(); i++) {
-            System.out.print("[" + guesses.get(i) + "]");
+        for (String guess : guesses) {
+            System.out.print("[" + guess + "]");
         }
         System.out.println();
     }
