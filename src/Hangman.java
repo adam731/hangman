@@ -12,29 +12,26 @@ public class Hangman {
     public static void main(String[] args) throws UnsupportedAudioFileException, LineUnavailableException, IOException {
 
         Music music = new Music();
-
-        int lives = 0;
-
-        int difficulty = 0;
-
+        WordBank wordBank = new WordBank("./src/assets/wordlist.txt");
+        Scanner input = new Scanner(System.in);
         boolean playing = true;
 
-        boolean gameOver = false;
-
-        boolean isWinner = false;
-
-        String answer = "";
-
-        ArrayList<String> guesses = new ArrayList<String>();
-
-        String choice = "";
-
-        WordBank wordBank = new WordBank("./src/assets/wordlist.txt");
-
-
-        Scanner input = new Scanner(System.in);
+        int lives;
+        int difficulty;
+        boolean gameOver;
+        boolean isWinner;
+        String answer;
+        ArrayList<String> guesses;
+        String choice;
 
         while(playing) {
+
+            lives = 0;
+            difficulty = 0;
+            gameOver = false;
+            isWinner = false;
+            answer = "";
+            guesses = new ArrayList<String>();
 
             while (true) {
 
@@ -87,6 +84,10 @@ public class Hangman {
                 if (choice.equals("1")) {
                     System.out.println("Enter a Letter");
                     char letter = input.nextLine().toLowerCase().charAt(0);
+                    while(!(letter >= 'a' && letter <= 'z')){
+                        System.out.println("Enter a valid letter");
+                        letter = input.nextLine().toLowerCase().charAt(0);
+                    }
                         if (guesses.contains(String.valueOf(letter))) {
                             System.out.println("Letter already guessed try again");
                             guesses.remove(String.valueOf(letter));
@@ -101,7 +102,6 @@ public class Hangman {
                             }
                         } else {
                             System.out.println("Incorrect letter");
-                            // make an if statement and if the letter is already in guesses array list tell user to try again
                             lives += 1;
                             music.WrongSoundEffect();
                             guesses.add(String.valueOf(letter));
@@ -140,7 +140,7 @@ public class Hangman {
                 }
                 System.out.println("Would you like to play again Y/N");
                 String word = input.next();
-                if (word.equals("Y")) {
+                if (word.equalsIgnoreCase("Y")) {
                     System.out.println("Starting new game");
                 } else {
                     System.out.println("Exiting program");
@@ -148,6 +148,7 @@ public class Hangman {
                 }
         }
     }
+
 
     public static void printGuesses (ArrayList<String> guesses) {
         for (int i = 0; i < guesses.size(); i++) {

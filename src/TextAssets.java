@@ -66,12 +66,14 @@ public class TextAssets {
     }
 
     public static void drawMainMenu() {
+        System.out.println("------------------------------");
         System.out.println("Welcome to Adams Hangman Game!");
         System.out.println("Type start to play ");
-        System.out.println("Type easy for easy mode ");
-        System.out.println("Type medium for medium mode ");
-        System.out.println("Type hard for hard mode ");
+        System.out.println("Type easy to set easy mode ");
+        System.out.println("Type medium to set medium mode ");
+        System.out.println("Type hard to set hard mode ");
         System.out.println("Type quit to exit the game ");
+        System.out.println("------------------------------");
     }
 
     public static void drawGameMenu() {
