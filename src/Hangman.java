@@ -11,8 +11,10 @@ public class Hangman {
 
     public static void main(String[] args) throws UnsupportedAudioFileException, LineUnavailableException, IOException {
 
+        final String WORD_LIST_FINAL = "./src/assets/wordlist.txt";
+
         Music music = new Music();
-        WordBank wordBank = new WordBank("./src/assets/wordlist.txt");
+        WordBank wordBank = new WordBank(WORD_LIST_FINAL);
         Scanner input = new Scanner(System.in);
         boolean playing = true;
 
@@ -64,10 +66,16 @@ public class Hangman {
             }
 
             if (difficulty == 1) {
+                if (wordBank.getEasyLength() == 0)
+                    wordBank.refillEasy(WORD_LIST_FINAL);
                 answer = wordBank.getEasyWord();
             } else if (difficulty == 2) {
+                if (wordBank.getMediumLength() == 0)
+                    wordBank.refillMedium(WORD_LIST_FINAL);
                 answer = wordBank.getMediumWord();
             } else if (difficulty == 3) {
+                if (wordBank.getHardLength() == 0)
+                    wordBank.refillHard(WORD_LIST_FINAL);
                 answer = wordBank.getHardWord();
             }
 
@@ -108,7 +116,7 @@ public class Hangman {
                         }
                     } else if (choice.equals("2")) {
                         System.out.println("Guess a word");
-                        String word = input.next();
+                        String word = input.nextLine();
                         if (answer.equals(word)) {
                             gameOver = true;
                             isWinner = true;
@@ -139,8 +147,8 @@ public class Hangman {
                     System.out.println("The word was " + answer);
                 }
                 System.out.println("Would you like to play again Y/N");
-                String word = input.next();
-                if (word.equalsIgnoreCase("Y")) {
+                char word = input.nextLine().toLowerCase().charAt(0);
+                if (word == 'y') {
                     System.out.println("Starting new game");
                 } else {
                     System.out.println("Exiting program");

@@ -14,10 +14,16 @@ public class WordBank {
 
     private ArrayList<String> wordListHard;
 
+
     public WordBank(String fileName) {
         wordListEasy = new ArrayList<>();
         wordListMedium = new ArrayList<>();
         wordListHard = new ArrayList<>();
+        initSetup(fileName);
+
+    }
+
+    public void initSetup(String fileName) {
         try {
             Scanner file = new Scanner(new File(fileName));
             while (file.hasNext()) {
@@ -34,6 +40,62 @@ public class WordBank {
             e.printStackTrace();
         }
     }
+
+    public void refillEasy(String fileName) {
+        try {
+            Scanner file = new Scanner(new File(fileName));
+            while (file.hasNext()) {
+                String word = file.nextLine();
+                if (word.length() <= 7) {
+                    wordListEasy.add(word);
+                }
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void refillMedium(String fileName) {
+        try {
+            Scanner file = new Scanner(new File(fileName));
+            while (file.hasNext()) {
+                String word = file.nextLine();
+                if (word.length() >= 4 && word.length() <= 6) {
+                    wordListMedium.add(word);
+                }
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void refillHard(String fileName) {
+        try {
+            Scanner file = new Scanner(new File(fileName));
+            while (file.hasNext()) {
+                String word = file.nextLine();
+                if (word.length() <= 3) {
+                    wordListHard.add(word);
+                }
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    public int getEasyLength () {
+        return wordListEasy.size();
+    }
+
+    public int getMediumLength () {
+        return wordListMedium.size();
+    }
+
+    public int getHardLength () {
+        return wordListHard.size();
+    }
+
 
     public String getEasyWord() {
         int random = (int) (Math.random() * wordListEasy.size());
