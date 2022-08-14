@@ -143,7 +143,7 @@ public class Hangman {
 
     public static void printGuesses (ArrayList<String> guesses) {
         for (int i = 0; i < guesses.size(); i++) {
-            System.out.print(guesses.get(i));
+            System.out.print("[" + guesses.get(i) + "]");
         }
         System.out.println();
     }
