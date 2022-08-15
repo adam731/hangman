@@ -7,7 +7,7 @@ A hangman game made in java
 run java command to play
 
 ```bash
-   java -jar hangman_jar.jar
+   java -jar hangmanProject_jar.jar
 ```
 
 ## Authors
