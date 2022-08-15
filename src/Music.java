@@ -1,32 +1,24 @@
 import javax.sound.sampled.*;
-import java.io.File;
+import java.io.BufferedInputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
+import java.util.Objects;
 
 public class Music {
 
 
-    private final String BKGD_MUSIC_PATH = "./src/assets/background.wav";
-    private final String CORRECT_MUSIC_PATH = "./src/assets/correct.wav";
-    private final String FAIL_SOUND_MUSIC_PATH = "./src/assets/wrongSound.wav";
-    private final String WIN_MUSIC_PATH = "./src/assets/winning.wav";
-    private final String LOSE_MUSIC_PATH = "./src/assets/failSound.wav";
+    private final URL CORRECT_MUSIC_PATH = this.getClass().getResource("/assets/correct.wav");
+    private final URL WRONG_SOUND_PATH = this.getClass().getResource("/assets/wrongSound.wav");
+    private final URL WINNING_SOUND_PATH = this.getClass().getResource("/assets/winning.wav");
+    private final URL LOSING_SOUND_PATH = this.getClass().getResource("/assets/failsound.wav");
 
-    private Clip backgroundClip;
-    private Clip soundEffectClip;
-    private AudioInputStream audioBkgd;
-    private AudioInputStream audioCorrect;
-    private AudioInputStream audioFail;
-    private AudioInputStream audioWin;
-    private AudioInputStream audioLose;
 
     public Music () {
         try {
-            audioWin = AudioSystem.getAudioInputStream(new File(WIN_MUSIC_PATH));
-            audioLose = AudioSystem.getAudioInputStream(new File(LOSE_MUSIC_PATH));
-            audioBkgd = AudioSystem.getAudioInputStream(new File(BKGD_MUSIC_PATH));
-            audioCorrect = AudioSystem.getAudioInputStream(new File(CORRECT_MUSIC_PATH));
-            audioFail = AudioSystem.getAudioInputStream(new File(FAIL_SOUND_MUSIC_PATH));
-            backgroundClip = AudioSystem.getClip();
+            InputStream BKGD_MUSIC_PATH = new BufferedInputStream(Objects.requireNonNull(this.getClass().getResourceAsStream("/assets/background.wav")));
+            AudioInputStream audioBkgd = AudioSystem.getAudioInputStream(BKGD_MUSIC_PATH);
+            Clip backgroundClip = AudioSystem.getClip();
             backgroundClip.open(audioBkgd);
             backgroundClip.loop(Clip.LOOP_CONTINUOUSLY);
         } catch (IOException | UnsupportedAudioFileException | LineUnavailableException e) {
@@ -35,48 +27,34 @@ public class Music {
     }
 
 
-    public void CorrectSoundEffect() {
+    public void playSoundEffect(int effect) {
         try {
-            audioCorrect = AudioSystem.getAudioInputStream(new File(CORRECT_MUSIC_PATH));
-            soundEffectClip = AudioSystem.getClip();
-            soundEffectClip.open(audioCorrect);
-            soundEffectClip.start();
-        } catch (Exception e) {
-            System.out.println("Error playing sound effect");
-        }
-    }
+            AudioInputStream audioInputStream = null;
 
-    public void WrongSoundEffect () {
-        try {
-            audioFail = AudioSystem.getAudioInputStream(new File(FAIL_SOUND_MUSIC_PATH));
-            soundEffectClip = AudioSystem.getClip();
-            soundEffectClip.open(audioFail);
-            soundEffectClip.start();
-        } catch (Exception e) {
-            System.out.println("Error playing sound effect");
-        }
-    }
-
-    public void losingSoundEffect() {
-        try {
-            audioLose = AudioSystem.getAudioInputStream(new File(LOSE_MUSIC_PATH));
-            soundEffectClip = AudioSystem.getClip();
-            soundEffectClip.open(audioLose);
-            soundEffectClip.start();
-        } catch (Exception e) {
-            System.out.println("Error playing sound effect");
-        }
-    }
-
-    public void winningSoundEffect() {
-        try {
-            audioWin = AudioSystem.getAudioInputStream(new File(WIN_MUSIC_PATH));
+            if (effect == 1) {
+                assert CORRECT_MUSIC_PATH != null;
+                audioInputStream = AudioSystem.getAudioInputStream(new BufferedInputStream(CORRECT_MUSIC_PATH.openStream()));
+            }
+            if (effect == 2) {
+                assert WRONG_SOUND_PATH != null;
+                audioInputStream = AudioSystem.getAudioInputStream(new BufferedInputStream(WRONG_SOUND_PATH.openStream()));
+            }
+            if (effect == 3) {
+                assert WINNING_SOUND_PATH != null;
+                audioInputStream = AudioSystem.getAudioInputStream(new BufferedInputStream(WINNING_SOUND_PATH.openStream()));
+            }
+            if (effect == 4) {
+                assert LOSING_SOUND_PATH != null;
+                audioInputStream = AudioSystem.getAudioInputStream(new BufferedInputStream(LOSING_SOUND_PATH.openStream()));
+            }
             Clip soundEffectClip = AudioSystem.getClip();
-            soundEffectClip.open(audioWin);
+            soundEffectClip.open(audioInputStream);
             soundEffectClip.start();
         } catch (Exception e) {
             System.out.println("Error playing sound effect");
         }
     }
+
+
 
 }

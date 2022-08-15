@@ -1,82 +1,71 @@
-import java.io.File;
-import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Scanner;
 
 public class WordBank {
 
-    private ArrayList<String> wordListEasy;
+    private final ArrayList<String> wordListEasy;
 
-    private ArrayList<String> wordListMedium;
+    private final ArrayList<String> wordListMedium;
 
-    private ArrayList<String> wordListHard;
+    private final ArrayList<String> wordListHard;
 
 
-    public WordBank(String fileName) {
+    private final InputStream WORD_BANK_INPUT_STREAM = getClass().getResourceAsStream("/assets/wordlist.txt");
+
+    public WordBank() {
         wordListEasy = new ArrayList<>();
         wordListMedium = new ArrayList<>();
         wordListHard = new ArrayList<>();
-        initSetup(fileName);
+        initSetup();
 
     }
 
-    public void initSetup(String fileName) {
-        try {
-            Scanner file = new Scanner(new File(fileName));
-            while (file.hasNext()) {
-                String word = file.nextLine();
-                if (word.length() <= 3) {
-                    wordListHard.add(word);
-                } else if (word.length() <= 6) {
-                    wordListMedium.add(word);
-                } else {
-                    wordListEasy.add(word);
-                }
+    public void initSetup() {
+        assert WORD_BANK_INPUT_STREAM != null;
+        Scanner file = new Scanner(WORD_BANK_INPUT_STREAM);
+        while (file.hasNext()) {
+            String word = file.nextLine();
+            if (word.length() <= 3) {
+                wordListHard.add(word);
+            } else if (word.length() <= 6) {
+                wordListMedium.add(word);
+            } else {
+                wordListEasy.add(word);
             }
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
         }
     }
 
-    public void refillEasy(String fileName) {
-        try {
-            Scanner file = new Scanner(new File(fileName));
-            while (file.hasNext()) {
-                String word = file.nextLine();
-                if (word.length() <= 7) {
-                    wordListEasy.add(word);
-                }
+    public void refillEasy() {
+        assert WORD_BANK_INPUT_STREAM != null;
+        Scanner file = new Scanner(WORD_BANK_INPUT_STREAM);
+        while (file.hasNext()) {
+            String word = file.nextLine();
+            if (word.length() <= 7) {
+                wordListEasy.add(word);
             }
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
         }
     }
 
-    public void refillMedium(String fileName) {
-        try {
-            Scanner file = new Scanner(new File(fileName));
-            while (file.hasNext()) {
-                String word = file.nextLine();
-                if (word.length() >= 4 && word.length() <= 6) {
-                    wordListMedium.add(word);
-                }
+    public void refillMedium() {
+        assert WORD_BANK_INPUT_STREAM != null;
+        Scanner file = new Scanner(WORD_BANK_INPUT_STREAM);
+        while (file.hasNext()) {
+            String word = file.nextLine();
+            if (word.length() >= 4 && word.length() <= 6) {
+                wordListMedium.add(word);
             }
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
         }
     }
 
-    public void refillHard(String fileName) {
-        try {
-            Scanner file = new Scanner(new File(fileName));
-            while (file.hasNext()) {
-                String word = file.nextLine();
-                if (word.length() <= 3) {
-                    wordListHard.add(word);
-                }
+    public void refillHard() {
+        assert WORD_BANK_INPUT_STREAM != null;
+        Scanner file = new Scanner(WORD_BANK_INPUT_STREAM);
+        while (file.hasNext()) {
+            String word = file.nextLine();
+            if (word.length() <= 3) {
+                wordListHard.add(word);
             }
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
         }
     }
 

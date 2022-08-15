@@ -5,10 +5,10 @@ public class Hangman {
 
     public static void main(String[] args) {
 
-        final String WORD_LIST_FINAL = "./src/assets/wordlist.txt";
+
 
         Music music = new Music();
-        WordBank wordBank = new WordBank(WORD_LIST_FINAL);
+        WordBank wordBank = new WordBank();
         Scanner input = new Scanner(System.in);
         boolean playing = true;
 
@@ -61,18 +61,17 @@ public class Hangman {
 
             if (difficulty == 1) {
                 if (wordBank.getEasyLength() == 0)
-                    wordBank.refillEasy(WORD_LIST_FINAL);
+                    wordBank.refillEasy();
                 answer = wordBank.getEasyWord();
             } else if (difficulty == 2) {
                 if (wordBank.getMediumLength() == 0)
-                    wordBank.refillMedium(WORD_LIST_FINAL);
+                    wordBank.refillMedium();
                 answer = wordBank.getMediumWord();
             } else if (difficulty == 3) {
                 if (wordBank.getHardLength() == 0)
-                    wordBank.refillHard(WORD_LIST_FINAL);
+                    wordBank.refillHard();
                 answer = wordBank.getHardWord();
             }
-
 
             while (!gameOver) {
                 // print out hangman guy
@@ -86,7 +85,12 @@ public class Hangman {
                 switch (choice) {
                     case "1" -> {
                         System.out.println("Enter a Letter");
-                        char letter = input.nextLine().toLowerCase().charAt(0);
+                        String letterInput = input.nextLine();
+                        while (letterInput.equals("")) {
+                            System.out.println("Enter a valid letter");
+                            letterInput = input.nextLine();
+                        }
+                        char letter = letterInput.toLowerCase().charAt(0);
                         while (!(letter >= 'a' && letter <= 'z')) {
                             System.out.println("Enter a valid letter");
                             letter = input.nextLine().toLowerCase().charAt(0);
@@ -97,7 +101,7 @@ public class Hangman {
                         }
                         if (answer.contains(String.valueOf(letter))) {
                             System.out.println("Correct Letter");
-                            music.CorrectSoundEffect();
+                            music.playSoundEffect(1);
                             guesses.add(String.valueOf(letter));
                             if (guesses.size() == answer.length()) {
                                 gameOver = true;
@@ -106,7 +110,7 @@ public class Hangman {
                         } else {
                             System.out.println("Incorrect letter");
                             lives += 1;
-                            music.WrongSoundEffect();
+                            music.playSoundEffect(2);
                             guesses.add(String.valueOf(letter));
                         }
                     }
@@ -118,7 +122,7 @@ public class Hangman {
                             isWinner = true;
                         } else {
                             System.out.println("Word is incorrect");
-                            music.WrongSoundEffect();
+                            music.playSoundEffect(2);
                             lives += 1;
                         }
                     }
@@ -131,18 +135,23 @@ public class Hangman {
                     }
                 }
                 if (isWinner & answer.length() > 1) {
-                    music.winningSoundEffect();
+                    music.playSoundEffect(3);
                     System.out.println("Congrats you beat the game!");
                     System.out.println("You guessed the word " + answer);
                 } else if (!isWinner & answer.length() > 1) {
-                    music.losingSoundEffect();
+                    music.playSoundEffect(4);
                     System.out.println("Exit program");
                     System.out.println("Better Luck next time!");
                     System.out.println("The word was " + answer);
                 }
                 System.out.println("Would you like to play again Y/N");
-                char word = input.nextLine().toLowerCase().charAt(0);
-                if (word == 'y') {
+                String letterInput = input.nextLine();
+                while (letterInput.equals("")) {
+                    System.out.println("Enter a valid input");
+                    letterInput = input.nextLine();
+                }
+                char letter = letterInput.toLowerCase().charAt(0);
+                if (letter == 'y') {
                     System.out.println("Starting new game");
                 } else {
                     System.out.println("Exiting program");
