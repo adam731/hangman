@@ -1,6 +1,6 @@
 # Hangman
 
-A brief description of what this project does and for whom
+A hangman game made in java
 
 ## Demo
 
@@ -9,11 +9,10 @@ Insert gif or link to demo
 
 ## Installation
 
-Install filler with npm
+run java command to play
 
 ```bash
-  npm install filler
-  cd filler
+   java -jar hangman_jar.jar
 ```
 
 ## Authors
