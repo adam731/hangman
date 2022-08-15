@@ -2,12 +2,7 @@
 
 A hangman game made in java
 
-## Demo
-
-Insert gif or link to demo
-
-
-## Installation
+## Usage
 
 run java command to play
 
